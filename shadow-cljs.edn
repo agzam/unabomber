@@ -1,0 +1,13 @@
+{:deps {:aliases [:frontend :dev :test-cljs]}
+ :builds
+ {:app {:output-dir "resources/public/out"
+        :asset-path "out"
+        :target :browser
+        :modules {:app {:init-fn unabomber.frontend.app/init}}
+        :devtools
+        {:after-load unabomber.frontend.app/re-render
+         :repl-init-ns some-proto.frontend.app}
+        :dev {}}
+  :test {:target :karma
+         :output-to "resources/public/out/test.js"}}
+ :nrepl {:port 8777}}
