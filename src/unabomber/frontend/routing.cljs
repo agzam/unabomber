@@ -14,7 +14,7 @@
   [""
    ["/"
     {:name :routes/root
-     :view [:h1 "There will be dragons"]
+     :view (fn [] [:h1 "There will be dragons"])
      :controllers [{:start (fn [] (println "entering root route"))
                     :stop (fn [] (println "leaving root route"))}]}]])
 

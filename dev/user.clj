@@ -2,13 +2,14 @@
   (:require
    [clojure.edn :as edn]
    [clojure.java.io :as io]
-   #_[clojure.java.shell :as shell]
-   #_[clojure.string :as str]
+   [clojure.java.shell :as shell]
+   [clojure.string :as str]
    [clojure.tools.logging :as log]
    [integrant.core :as ig]
    [integrant.repl :as ig-repl :refer [go reset halt]]
    [shadow.cljs.devtools.api :as shadow]
-   [shadow.cljs.devtools.server :as server]))
+   [shadow.cljs.devtools.server :as server]
+   [unabomber.backend.utils :as utils]))
 
 (defn- shadow-cljs-watch [build-id]
   (println "starting shadow-cljs server & watch")
@@ -28,7 +29,6 @@
   (server/stop!)
   (println "shadow-cljs server stopped"))
 
-#_
 (defmethod ig/init-key ::postcss-watch [_ _]
   []
   (let [watch-running? (->> "ps -eo comm | grep -E '(.*postcss.*)(.*watch.*)'"
@@ -50,7 +50,6 @@
       (-> ps-builder .inheritIO .start))))
 
 
-#_
 (defmethod ig/halt-key! ::postcss-watch [_ proc]
   (when proc
     (.destroy proc)
@@ -68,7 +67,7 @@
    (let [cfg (some-> "dev/config.edn"
                      read-config-file
                      (merge {::shadow-cljs-watch nil
-                             ;; ::postcss-watch nil
+                             ::postcss-watch nil
                              }))]
      (ig/load-namespaces cfg)
      (ig/prep cfg))))

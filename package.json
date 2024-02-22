@@ -4,12 +4,21 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "postcss:build": "cross-env postcss src/unabomber/frontend/app.css -o ./resources/public/out/compiled.css --verbose",
+    "postcss:watch": "cross-env postcss src/unabomber/frontend/app.css -o ./resources/public/out/compiled.css --verbose -w"
   },
   "author": "Ag Ibragimov",
   "license": "ISC",
   "dependencies": {
+    "cross-env": "^7.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.17",
+    "postcss": "^8.4.35",
+    "postcss-cli": "^11.0.0",
+    "shadow-cljs": "^2.27.4",
+    "tailwindcss": "^3.4.1"
   }
 }
