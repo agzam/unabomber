@@ -12,7 +12,8 @@
             [reitit.ring.middleware.muuntaja :as muuntaja]
             [reitit.ring.middleware.parameters :as parameters]
             [ring.adapter.jetty :as jetty]
-            [unabomber.backend.index-page :refer [index-page]])
+            [unabomber.backend.index-page :refer [index-page]]
+            [unabomber.backend.giantbomb :as giantbomb])
   (:import [org.eclipse.jetty.server Server])
   (:gen-class))
 
@@ -22,7 +23,7 @@
     [["/" {:get {:handler (fn [_]
                             {:status 200
                              :body (index-page)})}}]
-     #_["/search" {:get api/handler}]
+     ["/search" {:get giantbomb/handler}]
 
      ["/status"
       {:get {:handler (constantly
