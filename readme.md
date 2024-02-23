@@ -2,7 +2,7 @@
 
 Try it here: https://unabomber-1.onrender.com
 
-Note that it's deployed on a free tier, so it might load very slowly and search too, will get super sluggish. I mean, you may have to wait for like two-three minutes for search results to appear.
+Note that it's deployed on a free tier, so it might load extremely slowly (be patient, it's unlikely that it's broken, it just takes too long to load) and search too, will get super sluggish. I mean, you may have to wait for like two-three minutes for search results to appear.
 
 ## Running locally
 ### Required
@@ -12,28 +12,30 @@ Note that it's deployed on a free tier, so it might load very slowly and search 
 ### Using the Docker Image
 
 1. clone the repo
-```bash
-git clone https://github.com/agzam/unabomber
-cd unabomber
-```
+    ```bash
+    git clone https://github.com/agzam/unabomber
+    cd unabomber
+    ```
 
 2. build the image
 
-```bash
-sudo docker build -t unabomber .
-```
+    ```bash
+    sudo docker build -t unabomber .
+    ```
 
 3. run the app
 
-providing the API key: 
+    providing the API key: 
 
-```bash
-sudo docker run -p 3000:3000 --name bomba unabomber java -jar /unabomber.jar --api-key="YOUR-API-KEY"
-```
+    ```bash
+    sudo docker run -p 3000:3000 --name bomba unabomber \
+    java -jar /unabomber.jar  \
+    --api-key="YOUR-API-KEY"
+    ```
 
-```bash
-open localhost:3000
-```
+    ```bash
+    open localhost:3000
+    ```
 
 ### Running/testing locally without Docker
 
@@ -48,7 +50,9 @@ open localhost:3000
 Run the following command while in the project directory, *supplement your GiantBombAPI key and the email used with your private gpg key*:
 
 ```bash
-echo '{:giantbomb-api-key "YOUR-API-KEY"}' | gpg --recipient YOUR@EMAIL.COM --output ./resources/creds.gpg --encrypt
+echo '{:giantbomb-api-key "YOUR-API-KEY"}' | \ 
+    gpg --recipient YOUR@EMAIL.COM \
+    --output ./resources/creds.gpg --encrypt
 ```
 
 The app then uses that info while keeping your API key secured. **If that step is not done, the search won't work at all**.
@@ -81,7 +85,9 @@ open localhost:3000
 
 ### To study the code, the best is to run the app in the REPL
 
-Instead of running the standalone "production-ready" app, you may choose to run the "dev-grade" app (that lacks all optimizations for faster feedback loop) in the REPL. That is the best option to navigate through the code and to understand how things are stitched together. Try though, not to execute both options at the same time. I haven't tested it like that, some weird things may happen.
+Instead of running the standalone "production-ready" app, you may choose to run the "dev-grade" app (that lacks all optimizations for faster feedback loop) in the REPL. That is the best option to navigate through the code and to understand how things are stitched together. In general, exploring any kind of Lisp code while having a connected REPL session is a much more delightful experience.
+
+Please avoid running both options (the "prod" jar and the "dev" REPL) at the same time. While theoretically they should not conflict, I have not tested this scenario, so some unexpected issues could arise.
 
 ```bash
 clojure -M:dev:backend:frontend 
