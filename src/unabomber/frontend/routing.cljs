@@ -8,13 +8,14 @@
    #_[reitit.coercion.schema]
    [reitit.frontend]
    [reitit.frontend.controllers :as rfc]
-   [reitit.frontend.easy :as rfe]))
+   [reitit.frontend.easy :as rfe]
+   [unabomber.frontend.home :as home]))
 
 (def routes
   [""
    ["/"
     {:name :routes/root
-     :view (fn [] [:h1 "There will be dragons"])
+     :view home/view
      :controllers [{:start (fn [] (println "entering root route"))
                     :stop (fn [] (println "leaving root route"))}]}]])
 
