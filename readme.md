@@ -1,18 +1,49 @@
 # Prototype app for showcasing GiantBomb API search
 
-## Prerequisites for running/testing locally
+## Required
+
+- functional GiantBombAPI key. [Sign up and get the key here](https://www.giantbomb.com/api/)
+
+## Using the Docker Image
+
+1. clone the repo
+```bash
+git clone https://github.com/agzam/unabomber
+cd unabomber
+```
+
+2. build the image
+
+```bash
+sudo docker build -t unabomber .
+```
+
+3. run the app
+
+providing the API key: 
+
+```bash
+sudo docker run -p 3000:3000 --name bomba unabomber java -jar /unabomber.jar --api-key="YOUR-API-KEY"
+```
+
+```bash
+open localhost:3000
+```
+
+## Running/testing locally without Docker
+
+### Prerequisites
 
 - clojure-cli, [installation instructions](https://clojure.org/guides/install_clojure)
 - nodejs, either install it directly, via package manager, or use [nvm](https://github.com/nvm-sh/nvm)
-- functional GiantBombAPI key. [Sign up and get the key here](https://www.giantbomb.com/api/)
 - configured local gpg service (required for storing the API key)
 
-### Right after cloning the repo
+#### Store API-KEY in an encrypted file
 
 Run the following command while in the project directory, *supplement your GiantBombAPI key and the email used with your private gpg key*:
 
 ```bash
-$> echo '{:giantbomb-api-key "YOUR-API-KEY"}' | gpg --recipient YOUR@EMAIL.COM --output ./resources/creds.gpg --encrypt
+echo '{:giantbomb-api-key "YOUR-API-KEY"}' | gpg --recipient YOUR@EMAIL.COM --output ./resources/creds.gpg --encrypt
 ```
 
 The app then uses that info while keeping your API key secured. **If that step is not done, the search won't work at all**.
@@ -20,13 +51,13 @@ The app then uses that info while keeping your API key secured. **If that step i
 #### Install required npm packages
 
 ```bash
-$> npm install
+npm install
 ```
 
-## To build and run locally
+### To build and run locally
 
 ```bash
-$> clojure -T:build uberjar
+clojure -T:build uberjar
 ```
 
 This would build the standalone jar with minified JavaScript.
@@ -34,16 +65,16 @@ This would build the standalone jar with minified JavaScript.
 Then you can run it locally:
 
 ```bash
-$> java -jar ./target/unabomber.jar 
+java -jar ./target/unabomber.jar 
 ```
 
 The standalone jar would run the server on port 3000
 
 ```bash
-$> open localhost:3000
+open localhost:3000
 ```
 
-## To study the code, the best is to run the app in the REPL
+### To study the code, the best is to run the app in the REPL
 
 Instead of running the standalone "production-ready" app, you may choose to run the "dev-grade" app (that lacks all optimizations for faster feedback loop) in the REPL. That is the best option to navigate through the code and to understand how things are stitched together. Try though, not to execute both options at the same time. I haven't tested it like that, some weird things may happen.
 
@@ -60,12 +91,12 @@ user> (go)
 That will kick off the "assembling the system" process using Integrant. Then the server would be available on port 3003. Or whatever is configured in `/dev/config.edn`
 
 ```bash
-$> open localhost:3003
+open localhost:3003
 ```
 
 **Remember, prod version and dev version use different ports**, so they can run without conflicting with each other. Still, it's probably best not to run both at the same time.
 
-### Emacs & CIDER 
+#### Emacs & CIDER 
 
 It is, of course possible to REPL with VSCode and IntelliJ and Vim, etc., but I only did this in Emacs.
 
