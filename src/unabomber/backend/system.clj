@@ -1,7 +1,6 @@
 (ns unabomber.backend.system
   (:require [clojure.edn :as edn]
             [clojure.java.io :as io]
-            [clojure.tools.cli :as cli]
             [clojure.tools.logging :as log]
             [integrant.core :as ig]
             [muuntaja.core :as m]
@@ -70,3 +69,6 @@
 (defmethod ig/halt-key! ::server [_ ^Server server]
   (log/info "shutting down the server")
   (.stop server))
+
+(defn -main [& args]
+  (jetty/run-jetty app {:port 3000 :join? false}))

@@ -35,4 +35,9 @@
   :test-cljs
   {:extra-paths ["test"]
    :extra-deps
-   {hiccup-find/hiccup-find {:mvn/version "2022.10.03"}}}}}
+   {hiccup-find/hiccup-find {:mvn/version "2022.10.03"}}}
+
+  :build
+  {:extra-deps {io.github.clojure/tools.build
+                {:git/tag "v0.9.6" :git/sha "8e78bcc"}}
+   :ns-default build}}}
