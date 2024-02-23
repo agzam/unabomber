@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "postcss:build": "cross-env postcss src/unabomber/frontend/app.css -o ./resources/public/out/compiled.css --verbose",
-    "postcss:watch": "cross-env postcss src/unabomber/frontend/app.css -o ./resources/public/out/compiled.css --verbose -w"
+    "postcss:watch": "cross-env postcss src/unabomber/frontend/app.css -o ./resources/public/out/compiled.css --verbose -w",
+    "test:run": "shadow-cljs compile :test -v && karma start --single-run",
+    "test:watch": "shadow-cljs watch :test -v & karma start --browsers Chrome --auto-watch"
   },
   "author": "Ag Ibragimov",
   "license": "ISC",
@@ -16,6 +18,10 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.17",
+    "karma": "^6.4.2",
+    "karma-chrome-launcher": "^3.2.0",
+    "karma-cljs-test": "^0.1.0",
+    "npm-run-all": "^4.1.5",
     "postcss": "^8.4.35",
     "postcss-cli": "^11.0.0",
     "shadow-cljs": "^2.27.4",
