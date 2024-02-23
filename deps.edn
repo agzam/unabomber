@@ -30,4 +30,9 @@
   :test
   {:extra-paths ["test"]
    :extra-deps {lambdaisland/kaocha {:mvn/version "1.87.1366"}}
-   :main-opts ["-m" "kaocha.runner"]}}}
+   :main-opts ["-m" "kaocha.runner"]}
+
+  :test-cljs
+  {:extra-paths ["test"]
+   :extra-deps
+   {hiccup-find/hiccup-find {:mvn/version "2022.10.03"}}}}}
