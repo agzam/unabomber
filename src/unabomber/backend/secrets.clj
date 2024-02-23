@@ -3,6 +3,8 @@
    [clojure.edn :as edn]
    [clojure.java.shell :refer [sh]]))
 
+(def ^:dynamic *api-key* nil)
+
 (defn- check-for-gpg-command
   "Returns false if gpg command doesn't exist in the path"
   [] (-> (sh "which" "gpg") :exit (= 0) true?))
@@ -20,7 +22,6 @@
      :out
      edn/read-string
      :giantbomb-api-key)))
-
 
 (comment
   (check-for-gpg-command)

@@ -1,11 +1,12 @@
 (ns unabomber.backend.giantbomb
   (:require
-   [unabomber.backend.secrets :refer [decrypt-api-key]]
+   [unabomber.backend.secrets :as secrets]
    [clj-http.client :as client]))
 
 (defn handler [request]
   (let [term (get-in request [:query-params "term"])
-        api-key (decrypt-api-key)
+        api-key (or secrets/*api-key*
+                    (secrets/decrypt-api-key))
         search-url
         (format
          "https://www.giantbomb.com/api/search?api_key=%s&format=json&query=%s&resources=game"

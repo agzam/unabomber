@@ -1,6 +1,7 @@
 (ns unabomber.backend.system
   (:require [clojure.edn :as edn]
-            [clojure.java.io :as io]
+            [clojure.string :as str]
+            [clojure.tools.cli :as cli]
             [clojure.tools.logging :as log]
             [integrant.core :as ig]
             [muuntaja.core :as m]
@@ -11,8 +12,9 @@
             [reitit.ring.middleware.muuntaja :as muuntaja]
             [reitit.ring.middleware.parameters :as parameters]
             [ring.adapter.jetty :as jetty]
+            [unabomber.backend.giantbomb :as giantbomb]
             [unabomber.backend.index-page :refer [index-page]]
-            [unabomber.backend.giantbomb :as giantbomb])
+            [unabomber.backend.secrets :as secrets])
   (:import [org.eclipse.jetty.server Server])
   (:gen-class))
 
@@ -70,5 +72,33 @@
   (log/info "shutting down the server")
   (.stop server))
 
+(defn usage []
+  (->> [""
+        "Options:"
+        " --help        -- este ayuda"
+        " --port PORT   -- server port"
+        " --api-key KEY -- Giantbomb API key"]
+       (str/join \newline)))
+
+(def ^:private cli-options
+  [
+   #_["-c" "--config FILE" "configuration file"
+      :default "dev-resources/config.edn"
+      :id :config]
+   ["-p" "--port PORT" "server port" :id :port]
+   ["-a" "--api-key KEY" "giantbomb api key" :id :api-key]
+   ["-h" "--help"]])
+
 (defn -main [& args]
-  (jetty/run-jetty app {:port 3000 :join? false}))
+  (let [{:keys [port help api-key]} (some-> (cli/parse-opts args cli-options)
+                                            :options)
+        port (-> port edn/read-string (or 3000))]
+    (when help
+      (println (usage))
+      (System/exit 0))
+    (when api-key
+      (log/info "giantbomb api is set via parameter")
+      (alter-var-root #'secrets/*api-key* (constantly api-key)))
+    (jetty/run-jetty app {:port port
+                          :join? false})
+    (log/info (str "running the server on port: " port))))
