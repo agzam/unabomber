@@ -1,10 +1,15 @@
 # Prototype app for showcasing GiantBomb API search
 
-## Required
+Try it here: https://unabomber-1.onrender.com
+
+Note that it's deployed on a free tier, so it might load very slowly and search too, will get super sluggish. I mean, you may have to wait for like two-three minutes for search results to appear.
+
+## Running locally
+### Required
 
 - functional GiantBombAPI key. [Sign up and get the key here](https://www.giantbomb.com/api/)
 
-## Using the Docker Image
+### Using the Docker Image
 
 1. clone the repo
 ```bash
@@ -30,15 +35,15 @@ sudo docker run -p 3000:3000 --name bomba unabomber java -jar /unabomber.jar --a
 open localhost:3000
 ```
 
-## Running/testing locally without Docker
+### Running/testing locally without Docker
 
-### Prerequisites
+#### Prerequisites
 
 - clojure-cli, [installation instructions](https://clojure.org/guides/install_clojure)
 - nodejs, either install it directly, via package manager, or use [nvm](https://github.com/nvm-sh/nvm)
 - configured local gpg service (required for storing the API key)
 
-#### Store API-KEY in an encrypted file
+##### Store API-KEY in an encrypted file
 
 Run the following command while in the project directory, *supplement your GiantBombAPI key and the email used with your private gpg key*:
 
@@ -48,13 +53,13 @@ echo '{:giantbomb-api-key "YOUR-API-KEY"}' | gpg --recipient YOUR@EMAIL.COM --ou
 
 The app then uses that info while keeping your API key secured. **If that step is not done, the search won't work at all**.
 
-#### Install required npm packages
+##### Install required npm packages
 
 ```bash
 npm install
 ```
 
-### To build and run locally
+#### Build and run 
 
 ```bash
 clojure -T:build uberjar
@@ -100,7 +105,7 @@ open localhost:3003
 
 It is, of course possible to REPL with VSCode and IntelliJ and Vim, etc., but I only did this in Emacs.
 
-- Default options is to run a single REPL. You can simply run `cider-jack-in` and type `(go)` in the REPL. All required elisp vars would be initialized with proper values, see: `./.dir-locals.el`
+- Default option is to run a single REPL. You can simply run `cider-jack-in` and type `(go)` in the REPL. All required elisp vars would be initialized with proper values, see: `./.dir-locals.el`
 
 - Or, you may like to run two simultaneous REPLs - for both, Clojure and Clojurescript. Then evaling Clojure code would go to clj REPL and Clojurescript code would got into the browser REPL. Simply, run `M-x cider-jack-in-clj&cljs`, and type `(go)` inside the Clojure REPL.
 
