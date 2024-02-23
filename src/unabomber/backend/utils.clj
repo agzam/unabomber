@@ -3,14 +3,6 @@
    [clojure.java.io :as io]
    [clojure.string :as str]))
 
-(defn deep-merge
-  [& maps]
-  (let [merge-fn (fn *merge* [& args]
-                   (if (every? map? args)
-                     (apply merge-with *merge* args)
-                     (last args)))]
-    (apply merge-with merge-fn maps)))
-
 (defn get-nodejs-bin-dir
   "Returns the location of the node bin dir where usually npm and node executables reside. Or throws an error."
   []
